@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
-<app version='0.0.1'>
+<app version='0.1'>
 <name>TestApp (BETA DEV)</name>
 <coder>MangoCoder360</coder>
-<version>0.0.1</version>
+<version>r1</version>
 <release_date>NOW</release_date>
 <short_description>My first wii app</short_description>
 <long_description>
