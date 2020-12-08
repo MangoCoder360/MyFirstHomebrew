@@ -9,8 +9,6 @@
 static u32 *xfb;
 static GXRModeObj *rmode;
 
-// Wiimote IR
-ir_t ir;
 
 void Initialise() {
   
@@ -30,32 +28,6 @@ void Initialise() {
 	if(rmode->viTVMode&VI_NON_INTERLACE) VIDEO_WaitVSync();
 }
 
-void DrawHLine (int x1, int x2, int y, int color) {
-	int i;
-	y = 320 * y;
-	x1 >>= 1;
-	x2 >>= 1;
-	for (i = x1; i <= x2; i++) {
-		u32 *tmpfb = xfb;
-		tmpfb[y+i] = color;
-	}
-}
-
-void DrawVLine (int x, int y1, int y2, int color) {
-	int i;
-	x >>= 1;
-	for (i = y1; i <= y2; i++) {
-		u32 *tmpfb = xfb;
-		tmpfb[x + (640 * i) / 2] = color;
-	}
-}
-
-void DrawBox (int x1, int y1, int x2, int y2, int color) {
-	DrawHLine (x1, x2, y1, color);
-	DrawHLine (x1, x2, y2, color);
-	DrawVLine (x1, y1, y2, color);
-	DrawVLine (x2, y1, y2, color);
-}
 
 int main() {
  
@@ -68,9 +40,6 @@ int main() {
 		WPAD_ScanPads();
 
 		u16 buttonsDown = WPAD_ButtonsDown(0);
-
-		// IR Movement
-		WPAD_IR(0, &ir);
 		
 		if( buttonsDown & WPAD_BUTTON_A ) {
 			printf("Button A pressed.\n");
@@ -98,14 +67,7 @@ int main() {
 
 		if (buttonsDown & WPAD_BUTTON_HOME) {
 			exit(0);
-		
 		}
-
-		VIDEO_ClearFrameBuffer (rmode, xfb, COLOR_BLACK);
-		
-		DrawBox (ir.x, ir.y, ir.x + 1, ir.y + 1, COLOR_WHITE);
-		
-		VIDEO_WaitVSync();
 	}
  
 	return 0;
