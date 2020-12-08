@@ -4,6 +4,7 @@
 #include <malloc.h>
 #include <ogcsys.h>
 #include <gccore.h>
+#include <wiiuse/wpad.h>
 
 static u32 *xfb;
 static GXRModeObj *rmode;
@@ -12,7 +13,7 @@ static GXRModeObj *rmode;
 void Initialise() {
   
 	VIDEO_Init();
-	PAD_Init();
+	WPAD_Init();
  
 	rmode = VIDEO_GetPreferredMode(NULL);
 
@@ -32,8 +33,42 @@ int main() {
  
 	Initialise();
  
-	printf("Preparing systems...\n");
-	printf("Initializing...\n");
+	printf("Ready!\n");
+	
+	while(1) {
+
+		WPAD_ScanPads();
+
+		u16 buttonsDown = WPAD_ButtonsDown(0);
+		
+		if( buttonsDown & WPAD_BUTTON_A ) {
+			printf("Button A pressed.\n");
+		}	
+		
+		u16 buttonsHeld = WPAD_ButtonsHeld(0);
+
+		if (buttonsHeld & WPAD_BUTTON_A ) {
+			printf("Button A is being held down.\n");
+		}
+
+		u16 buttonsUp = WPAD_ButtonsUp(0);
+
+		if (buttonsUp & WPAD_BUTTON_A ) {
+			printf("Button A released.\n");
+		}
+
+		/*if (PAD_StickY(0) > 18) {
+			printf("Joystick moved up.\n");
+		}
+		
+		if (PAD_StickY(0) < -18) {
+			printf("Joystick moved down.\n");
+		}*/
+
+		if (buttonsDown & WPAD_BUTTON_HOME) {
+			exit(0);
+		}
+	}
  
 	return 0;
 }
