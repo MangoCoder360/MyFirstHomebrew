@@ -57,14 +57,6 @@ int main() {
 			printf("Button A released.\n");
 		}
 
-		/*if (PAD_StickY(0) > 18) {
-			printf("Joystick moved up.\n");
-		}
-		
-		if (PAD_StickY(0) < -18) {
-			printf("Joystick moved down.\n");
-		}*/
-
 		if (buttonsDown & WPAD_BUTTON_HOME) {
 			exit(0);
 		}
